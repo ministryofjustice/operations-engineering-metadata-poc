@@ -2,12 +2,16 @@ import os
 
 from flask import Flask
 
+from . import DynamoDBInterface
+
+dynamodb_interface = DynamoDBInterface()
+
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
-        SECRET_KEY='dev',
+        SECRET_KEY=os.environ.get('SECRET_KEY', default='dev'),
         DATABASE=os.path.join(app.instance_path, 'flaskr.sqlite'),
     )
 
@@ -23,6 +27,10 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+    #
+    # Initialize DynamoDB Interface
+    app.config['DYNAMODB_TABLE'] = 'YourDynamoDBTableName'
+    dynamodb_interface.init_app(app)
 
     # a simple page that says hello
     @app.route('/hello')
