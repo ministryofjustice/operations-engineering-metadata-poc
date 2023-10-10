@@ -1,18 +1,10 @@
-import os
-
 from app.db import DatabaseInterface
 from flask import Blueprint
 
 bp = Blueprint("main", __name__)
 
 
-@bp.route("/")
+@bp.route("/home")
 def index():
     '''Entrypoint into the application'''
-    db = DatabaseInterface(
-        os.getenv("TABLE_NAME", "test_table")
-    )
-
-    all = db.get_all_items()
-
-    return all
+    return DatabaseInterface(table_name="cp-82071a5dad979a47").get_all_items()

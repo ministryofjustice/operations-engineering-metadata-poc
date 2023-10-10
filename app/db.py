@@ -1,6 +1,7 @@
 import os
 import boto3
 from botocore.exceptions import ClientError
+from flask import current_app
 
 import logging
 
@@ -45,7 +46,7 @@ class DatabaseInterface:
                 aws_access_key_id="test_access_key",
                 aws_secret_access_key="test_secret_key",
                 region_name=self._aws_region,
-                endpoint_url='http://dynamodb-local:8000'
+                endpoint_url='http://dynamodb-local:8001'
             )
 
         return boto3.resource(
