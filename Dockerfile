@@ -1,26 +1,20 @@
 # Use an official Python runtime as a base image
 FROM python:3.12-slim
 
+WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-RUN addgroup --gid 1017 --system appgroup \
-  && adduser --system --uid 1017 --group appgroup
+ENV PIP_ROOT_USER_ACTION=ignore
 
-RUN apt update -y && apt dist-upgrade -y && apt install -y
+RUN addgroup --gid 80 --system appgroup \
+  && adduser --system --uid 80 --group appgroup
 
-# Set the working directory in the container
-WORKDIR /app
+RUN apt-get update && \
+        apt-get upgrade -y
 
-# Copy the current directory contents into the container at /app
 COPY . /app
-
-# Install necessary packages and dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-USER 1017
-# Make port 5000 available to the world outside this container
-EXPOSE 4567
-
-# Run app.py when the container launches
-CMD ["flask", "run"]
-
+USER 80
+EXPOSE 5000
+CMD ["flask", "run", "--host", "0.0.0.0"]
