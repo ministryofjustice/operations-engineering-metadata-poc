@@ -13,7 +13,7 @@ spec:
         app: operations-engineering-metadata-poc
     spec:
       containers:
-        - name: operations-engineering-metadata-poc
+        - name: operations-engineering-metadata
           image: json0/metadata-api:latest
           ports:
             - containerPort: 5000
@@ -37,22 +37,22 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: operations-engineering-metadata-poc
-  namespace: operations-engineering-metadata-poc
+  namespace: operations-engineering-metadata
   annotations:
-    external-dns.alpha.kubernetes.io/set-identifier: operations-engineering-metadata-poc-operations-engineering-metadata-poc-green
+    external-dns.alpha.kubernetes.io/set-identifier: operations-engineering-metadata-operations-engineering-metadata-green
     external-dns.alpha.kubernetes.io/aws-weight: "100"
 spec:
   ingressClassName: default
   tls:
     - hosts:
-        - operations-engineering-metadata-poc.cloud-platform.service.justice.gov.uk
+        - operations-engineering-metadata.cloud-platform.service.justice.gov.uk
   rules:
-    - host: operations-engineering-metadata-poc.cloud-platform.service.justice.gov.uk
+    - host: operations-engineering-metadata.cloud-platform.service.justice.gov.uk
       http:
         paths:
           - backend:
               service:
-                name: operations-engineering-metadata-poc
+                name: operations-engineering-metadata
                 port:
                   number: 5000
             path: /

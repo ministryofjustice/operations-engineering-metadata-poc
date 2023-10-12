@@ -3,7 +3,7 @@ services:
   app:
     build: .
     image: "operations-engineering-metadata-poc"
-    container_name: "operations-engineering-metadata-poc"
+    container_name: "operations-engineering-metadata"
     environment:
       FLASK_CONFIGURATION: "development"
       FLASK_DEBUG: "true"
