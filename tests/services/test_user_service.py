@@ -37,7 +37,7 @@ class TestGetUserByGithubUsername(unittest.TestCase):
         self.assertEqual(user_2, found_user)
 
     def test_returns_nothing_if_not_found(self):
-        found_user = UserService(stubbed_users).get_user_by_slack_username(
+        found_user = UserService(stubbed_users).get_user_by_github_username(
             "unknown_github_username")
         self.assertIsNone(found_user)
 
