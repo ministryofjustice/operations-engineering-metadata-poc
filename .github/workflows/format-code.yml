@@ -10,5 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ministryofjustice/github-actions/code-formatter@v14
+        with:
+          ignore-files: "deployment.yaml,ingress.yaml,service.yaml,serviceaccount.yaml"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

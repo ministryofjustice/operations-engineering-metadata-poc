@@ -1,0 +1,6 @@
+ingress:
+  hosts:
+    - operations-engineering-metadata.cloud-platform.service.justice.gov.uk
+
+image:
+  repository: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/operations-engineering/operations-engineering-metadata-poc-ecr
