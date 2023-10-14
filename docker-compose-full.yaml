@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  operations-engineering-metadata-db:
+    image: postgres:15.0
+    networks:
+      - ops-eng
+    container_name: operations-engineering-metadata-db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=postgres
+
+  operations-engineering-metadata-app:
+    build: .
+    image: "operations-engineering-metadata-poc"
+    container_name: "operations-engineering-metadata-poc"
+    network_mode: "host"
+    depends_on:
+      - operations-engineering-metadata-db
+    environment:
+      FLASK_CONFIGURATION: "development"
+      FLASK_DEBUG: "true"
+      FLASK_APP: "app"
+      DOCKER_COMPOSE_DEV: "true"
+    ports:
+      - "5000:5000"
+
+networks:
+  ops-eng:
