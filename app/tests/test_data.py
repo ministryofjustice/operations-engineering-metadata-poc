@@ -7,4 +7,8 @@ user_2 = UserModel(slack_username="test_user_2_slack", github_username="test_use
 user_3 = UserModel(slack_username="test_user_3_slack", github_username="test_user_3_github",
                    email="test_user_3_email@digital.justice.gov.uk")
 
+users_post_data = {"users": [{"email": "test_user_3_email@digital.justice.gov.uk",
+                              "github_username": "test_user_3_github",
+                              "slack_username": "test_user_3_slack"}]}
+
 stubbed_users = [user_1, user_2, user_3]
