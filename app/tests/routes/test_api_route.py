@@ -43,7 +43,8 @@ class TestCreateUser(unittest.TestCase):
         response = json.loads(
             app.create_app(mock_db_client).test_client().post('/api/user/add', json=users_post_data).data)
         self.assertEqual(users_post_data, response)
-        mock_db_client.add_users.assert_called_once_with(users_post_data['users'], ['connormaglynn', 'PepperMoJ'])
+        mock_db_client.add_users.assert_called_once_with(
+            users_post_data['users'], ['connormaglynn', 'PepperMoJ'])
 
 
 if __name__ == "__main__":

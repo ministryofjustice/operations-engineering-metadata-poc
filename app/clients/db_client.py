@@ -61,9 +61,11 @@ class DBClient:
     def add_users(self, users: list[dict], allowed_users: list[str]):
         for user in users:
             if user['github_username'] in allowed_users:
-                self.__add_user(user['email'], user['slack_username'], user["github_username"])
+                self.__add_user(
+                    user['email'], user['slack_username'], user["github_username"])
             else:
-                self.app.logger.warning(f'skipping user [{user["github_username"]}] - not in allowed list')
+                self.app.logger.warning(
+                    f'skipping user [{user["github_username"]}] - not in allowed list')
         self.__session.commit()
 
     def __add_user(self, email: str, slack_username: str, github_username: str) -> None:
