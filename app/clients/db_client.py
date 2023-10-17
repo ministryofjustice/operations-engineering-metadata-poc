@@ -72,3 +72,8 @@ class DBClient:
         self.__session.add(UserModel(email=email,
                                      slack_username=slack_username,
                                      github_username=github_username))
+
+    def delete_all_users(self) -> int:
+        rows_deleted = self.__session.query(UserModel).delete()
+        self.__session.commit()
+        return rows_deleted

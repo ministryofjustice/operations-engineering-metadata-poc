@@ -67,5 +67,19 @@ class TestAddUsers(unittest.TestCase):
             users_post_data, ['connormaglynn', 'PepperMoJ'])
 
 
+class TestDeleteAllUsers(unittest.TestCase):
+
+    def test_returns_number_of_rows_deleted_as_string(self):
+        mock_db_client = MagicMock(DBClient)
+        mock_db_client.delete_all_users.return_value = 3
+        response = UserService(mock_db_client).delete_all_users()
+        self.assertEqual("3", response)
+
+    def test_calls_downstream_services(self):
+        mock_db_client = MagicMock(DBClient)
+        UserService(mock_db_client).delete_all_users()
+        mock_db_client.delete_all_users.assert_called_once_with()
+
+
 if __name__ == "__main__":
     unittest.main()
