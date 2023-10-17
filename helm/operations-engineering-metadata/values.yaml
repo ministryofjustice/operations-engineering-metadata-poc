@@ -59,9 +59,6 @@ resources:
   #   cpu: 100m
   #   memory: 128Mi
 
-autoscaling:
-  enabled: false
-
 nodeSelector: {}
 
 tolerations: []
