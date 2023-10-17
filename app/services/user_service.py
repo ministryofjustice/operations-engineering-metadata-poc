@@ -23,3 +23,6 @@ class UserService:
 
     def add_users(self, users: list[dict]):
         self.__db_client.add_users(users, self.__allowed_users)
+
+    def delete_all_users(self) -> str:
+        return str(self.__db_client.delete_all_users())

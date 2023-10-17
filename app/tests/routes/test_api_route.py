@@ -47,5 +47,15 @@ class TestCreateUser(unittest.TestCase):
             users_post_data['users'], ['connormaglynn', 'PepperMoJ'])
 
 
+class TestDeleteAllUsers(unittest.TestCase):
+    def test_delete_all_users(self):
+        mock_db_client = MagicMock(DBClient)
+        mock_db_client.delete_all_users.return_value = 3
+        response = app.create_app(mock_db_client).test_client().get(
+            '/api/user/delete-all').data
+        self.assertEqual(b"3", response)
+        mock_db_client.delete_all_users.assert_called_once_with()
+
+
 if __name__ == "__main__":
     unittest.main()
