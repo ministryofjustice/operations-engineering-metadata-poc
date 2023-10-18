@@ -4,3 +4,5 @@ ingress:
 
 image:
   repository: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/operations-engineering/operations-engineering-metadata-poc-ecr
+
+replicaCount: 0
