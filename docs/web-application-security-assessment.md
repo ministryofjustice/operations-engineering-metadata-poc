@@ -50,7 +50,7 @@ reasonable mitigations are in place for the service to securely run in a product
 The current mitigations are not enough to enable a production service. Attackers ideally should not be able to initiate
 a connection to a production database contaminating potentially sensitive information
 
-### API Endpoint GET /api/user/**
+### API Endpoint GET /api/user/\*\*
 
 #### Impact: `LOW`
 
