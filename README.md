@@ -30,7 +30,7 @@ To enable the provisioning of a quick local environment, the repository comes wi
 To spin up the entire application you can use the `docker-compose-full.yaml`, for example
 
 ```shell
-docker-compose -f ./docker-compose-full.yaml up --build -d 
+docker-compose -f ./docker-compose-full.yaml up --build -d
 ```
 
 This is useful for quickly testing the application locally 🧪
@@ -41,7 +41,7 @@ To only spin up the application infrastructure, but not the application itself, 
 the `docker-compose-full.yaml`, for example
 
 ```shell
-docker-compose -f ./docker-compose-local.yaml up --build -d 
+docker-compose -f ./docker-compose-local.yaml up --build -d
 ```
 
 This is useful for setting up the infrastructure of the application, enabling the actual application to be started in a
