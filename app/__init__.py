@@ -10,26 +10,27 @@ from app.routes.views import create_app_routes
 from app.services.user_service import UserService
 
 from app.views.errors import (page_not_found, server_forbidden,
-                                   unknown_server_error, gateway_timeout)
+                              unknown_server_error, gateway_timeout)
 
 
 def create_app(db_client: DBClient = None):
-    
+
     logging.basicConfig(
         level=logging.INFO,
         format='%(asctime)s %(levelname)s : %(message)s',
     )
-    
+
     app = Flask(__name__, instance_relative_config=True)
     db_client = db_client or DBClient(app)
     user_service = UserService(db_client)
     app.register_blueprint(create_api_route(user_service))
     app.register_blueprint(create_app_routes(user_service))
-    
+
     app.jinja_loader = ChoiceLoader(
         [
             PackageLoader("app"),
-            PrefixLoader({"govuk_frontend_jinja": PackageLoader("govuk_frontend_jinja")}),
+            PrefixLoader(
+                {"govuk_frontend_jinja": PackageLoader("govuk_frontend_jinja")}),
         ]
     )
 
@@ -45,5 +46,3 @@ def create_app(db_client: DBClient = None):
     CORS(app, resources={r"/*": {"origins": "*", "send_wildcard": "False"}})
 
     return app
-
-

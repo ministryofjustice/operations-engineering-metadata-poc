@@ -4,6 +4,7 @@ import logging
 errors = Blueprint("errors", __name__)
 logger = logging.getLogger(__name__)
 
+
 @errors.errorhandler(404)
 def page_not_found(err):
     """Load 404.html when page not found error occurs
