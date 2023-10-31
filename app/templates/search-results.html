@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<h1 class="govuk-heading-xl">Search Results</h1>
+
+{% if results %}
+<h3 class="govuk-heading-l"> for {{user_query}}</h3>
+
+<table class="govuk-table">
+    <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th class="govuk-table__header" scope="col">Type</th>
+            <th class="govuk-table__header" scope="col">Value</th>
+        </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell">Email</td>
+                <td class="govuk-table__cell">{{ results.email }}</td>
+            </tr>
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell">GitHub Username</td>
+                <td class="govuk-table__cell">{{ results.github_username }}</td>
+            </tr>
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell">Slack Username</td>
+                <td class="govuk-table__cell">{{ results.slack_username }}</td>
+            </tr>
+    </tbody>
+</table>
+{% else %}
+<h3 class="govuk-heading-l">No results found for {{user_query}}</h3>
+{% endif %}
+
+<button class="govuk-button" onclick="location.href='/home'" style="margin-top: 10px;">Return to Search</button>
+
+{% endblock %}
+
+
