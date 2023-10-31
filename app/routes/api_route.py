@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify, request, Response, render_template
 
 from app.services.user_service import UserService
 
+
 def create_api_route(user_service: UserService):
     api_route = Blueprint("api", __name__)
 
