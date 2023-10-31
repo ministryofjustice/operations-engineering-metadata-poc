@@ -2,7 +2,6 @@ from flask import Blueprint, jsonify, request, Response, render_template
 
 from app.services.user_service import UserService
 
-
 def create_api_route(user_service: UserService):
     api_route = Blueprint("api", __name__)
 
@@ -27,10 +26,5 @@ def create_api_route(user_service: UserService):
     @api_route.route("/api/user/delete-all", methods=["GET"])
     def delete_all_users() -> str:
         return user_service.delete_all_users()
-    
-    @api_route.route("/")
-    def home():
-        return render_template("home.html")
-
 
     return api_route
