@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Type
+from typing import Type, List
 
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
@@ -49,14 +49,14 @@ class DBClient:
                               github_username='test_user_3_github_username'))
             self.__session.commit()
 
-    def get_user_by_email(self, email: str) -> Type[UserModel] | None:
-        return self.__session.query(UserModel).filter_by(email=email).first()
+    def get_user_by_email(self, email: str) -> List[Type[UserModel]] | None:
+        return self.__session.query(UserModel).filter(UserModel.email.ilike(f"%{email}%")).all()
 
-    def get_user_by_slack_username(self, slack_username: str) -> Type[UserModel] | None:
-        return self.__session.query(UserModel).filter_by(slack_username=slack_username).first()
+    def get_user_by_slack_username(self, slack_username: str) -> List[Type[UserModel]] | None:
+        return self.__session.query(UserModel).filter(UserModel.slack_username.ilike(f"%{slack_username}%")).all()
 
-    def get_user_by_github_username(self, github_username: str) -> Type[UserModel] | None:
-        return self.__session.query(UserModel).filter_by(github_username=github_username).first()
+    def get_user_by_github_username(self, github_username: str) -> List[Type[UserModel]] | None:
+        return self.__session.query(UserModel).filter(UserModel.github_username.ilike(f"%{github_username}%")).all()
 
     def add_users(self, users: list[dict], allowed_users: list[str]):
         for user in users:

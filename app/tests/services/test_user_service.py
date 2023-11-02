@@ -22,6 +22,17 @@ class TestGetUserByEmail(unittest.TestCase):
             mock_db_client).get_user_by_email("unknown_email")
         self.assertIsNone(found_user)
 
+    def test_returns_all_matching_users(self):
+        search_query = "email"
+        mock_db_client = MagicMock(DBClient)
+        mock_db_client.get_user_by_email.return_value = [
+            user_1, user_2, user_3]
+        found_users = UserService(
+            mock_db_client).get_user_by_email(search_query)
+
+        expected_users = [user_1, user_2, user_3]
+        self.assertListEqual(expected_users, found_users)
+
 
 class TestGetUserBySlackUsername(unittest.TestCase):
 
@@ -39,6 +50,17 @@ class TestGetUserBySlackUsername(unittest.TestCase):
             "unknown_slack_username")
         self.assertIsNone(found_user)
 
+    def test_returns_all_matching_users(self):
+        search_query = "slack"
+        mock_db_client = MagicMock(DBClient)
+        mock_db_client.get_user_by_slack_username.return_value = [
+            user_1, user_2, user_3]
+        found_users = UserService(
+            mock_db_client).get_user_by_slack_username(search_query)
+
+        expected_users = [user_1, user_2, user_3]
+        self.assertListEqual(expected_users, found_users)
+
 
 class TestGetUserByGithubUsername(unittest.TestCase):
 
@@ -55,6 +77,17 @@ class TestGetUserByGithubUsername(unittest.TestCase):
         found_user = UserService(mock_db_client).get_user_by_github_username(
             "unknown_github_username")
         self.assertIsNone(found_user)
+
+    def test_returns_all_matching_users(self):
+        search_query = "github"
+        mock_db_client = MagicMock(DBClient)
+        mock_db_client.get_user_by_github_username.return_value = [
+            user_1, user_2, user_3]
+        found_users = UserService(
+            mock_db_client).get_user_by_github_username(search_query)
+
+        expected_users = [user_1, user_2, user_3]
+        self.assertListEqual(expected_users, found_users)
 
 
 class TestAddUsers(unittest.TestCase):

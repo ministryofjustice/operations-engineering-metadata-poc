@@ -7,34 +7,51 @@
 
 <h1 class="govuk-heading-xl">Search Results</h1>
 
-{% if results %}
-<h3 class="govuk-heading-l"> for {{user_query}}</h3>
+{% if results and results|length > 0 %}
+<h3 class="govuk-heading-l">{{ results|length }} results returned for "{{ user_query }}"</h3>
 
-<table class="govuk-table">
-    <thead class="govuk-table__head">
-        <tr class="govuk-table__row">
-            <th class="govuk-table__header" scope="col">Type</th>
-            <th class="govuk-table__header" scope="col">Value</th>
-        </tr>
-    </thead>
-    <tbody class="govuk-table__body">
+{% for result in results %}
+    <table class="govuk-table">
+        <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th class="govuk-table__header" scope="col">Type</th>
+                <th class="govuk-table__header" scope="col">Value</th>
+                <th class="govuk-table__header" scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody class="govuk-table__body">
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell">Email</td>
-                <td class="govuk-table__cell">{{ results.email }}</td>
+                <td class="govuk-table__cell">{{ result.email }}</td>
+                <td class="govuk-table__cell">
+                    <a href="mailto:{{ result.email }}" class="govuk-button">Email</a>
+                </td>
             </tr>
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell">GitHub Username</td>
-                <td class="govuk-table__cell">{{ results.github_username }}</td>
+                <td class="govuk-table__cell">{{ result.github_username }}</td>
+                <td class="govuk-table__cell">
+                    <a href="https://github.com/{{ result.github_username }}" target="_blank" class="govuk-button">View Profile</a>
+                </td>
             </tr>
             <tr class="govuk-table__row">
                 <td class="govuk-table__cell">Slack Username</td>
-                <td class="govuk-table__cell">{{ results.slack_username }}</td>
+                <td class="govuk-table__cell">{{ result.slack_username }}</td>
+                <td class="govuk-table__cell">
+                    <button class="govuk-button" disabled>View Profile</button>
+                </td>
             </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
+    <br>
+{% endfor %}
+
 {% else %}
-<h3 class="govuk-heading-l">No results found for {{user_query}}</h3>
+<h3 class="govuk-heading-l">No results found for {{ user_query }}</h3>
 {% endif %}
+
+
+
 
 <button class="govuk-button" onclick="location.href='/home'" style="margin-top: 10px;">Return to Search</button>
 

@@ -16,6 +16,19 @@ class TestGetUserByEmail(unittest.TestCase):
             f'/api/user/email/{user_1.email}').data)
         self.assertEqual(user_1, UserModel(**response))
 
+    def test_returns_mutliple_users(self):
+        search_query = "email"
+        mock_db_client = MagicMock(DBClient)
+        mock_db_client.get_user_by_email.return_value = [
+            user_1, user_2, user_3]
+        response = json.loads(app.create_app(mock_db_client).test_client().get(
+            f'/api/user/email/{search_query}').data)
+
+        expected_users = [user_1, user_2, user_3]
+        found_users = [UserModel(**user_dict) for user_dict in response]
+
+        self.assertListEqual(expected_users, found_users)
+
 
 class TestGetUserBySlackUsername(unittest.TestCase):
 
@@ -26,6 +39,19 @@ class TestGetUserBySlackUsername(unittest.TestCase):
             f'/api/user/slack-username/{user_2.slack_username}').data)
         self.assertEqual(user_2, UserModel(**response))
 
+    def test_returns_mutliple_users(self):
+        search_query = "slack"
+        mock_db_client = MagicMock(DBClient)
+        mock_db_client.get_user_by_slack_username.return_value = [
+            user_1, user_2, user_3]
+        response = json.loads(app.create_app(mock_db_client).test_client().get(
+            f'/api/user/slack-username/{search_query}').data)
+
+        expected_users = [user_1, user_2, user_3]
+        found_users = [UserModel(**user_dict) for user_dict in response]
+
+        self.assertListEqual(expected_users, found_users)
+
 
 class TestGetUserByGithubUsername(unittest.TestCase):
 
@@ -35,6 +61,19 @@ class TestGetUserByGithubUsername(unittest.TestCase):
         response = json.loads(app.create_app(mock_db_client).test_client().get(
             f'/api/user/github-username/{user_3.github_username}').data)
         self.assertEqual(user_3, UserModel(**response))
+
+    def test_returns_mutliple_users(self):
+        search_query = "github"
+        mock_db_client = MagicMock(DBClient)
+        mock_db_client.get_user_by_github_username.return_value = [
+            user_1, user_2, user_3]
+        response = json.loads(app.create_app(mock_db_client).test_client().get(
+            f'/api/user/github-username/{search_query}').data)
+
+        expected_users = [user_1, user_2, user_3]
+        found_users = [UserModel(**user_dict) for user_dict in response]
+
+        self.assertListEqual(expected_users, found_users)
 
 
 class TestCreateUser(unittest.TestCase):
