@@ -44,7 +44,17 @@ class TestCreateUser(unittest.TestCase):
             app.create_app(mock_db_client).test_client().post('/api/user/add', json=users_post_data).data)
         self.assertEqual(users_post_data, response)
         mock_db_client.add_users.assert_called_once_with(
-            users_post_data['users'], ['connormaglynn', 'PepperMoJ'])
+            users_post_data['users'], [
+                'connormaglynn',
+                'PepperMoJ',
+                'githubgary',
+                'githubgeorge',
+                'KeithTheCoder',
+                'DaveTheCoder',
+                'sarahsaurus',
+                'PaulRudd',
+                'PaulRudd2'
+            ])
 
 
 class TestDeleteAllUsers(unittest.TestCase):

@@ -8,7 +8,14 @@ class UserService:
         if allowed_users is None:
             allowed_users = [
                 'connormaglynn',
-                'PepperMoJ'
+                'PepperMoJ',
+                'githubgary',
+                'githubgeorge',
+                'KeithTheCoder',
+                'DaveTheCoder',
+                'sarahsaurus',
+                'PaulRudd',
+                'PaulRudd2'
             ]
         self.__allowed_users = allowed_users
 
