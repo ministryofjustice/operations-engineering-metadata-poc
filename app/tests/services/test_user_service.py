@@ -65,16 +65,16 @@ class TestAddUsers(unittest.TestCase):
             users_post_data)
         mock_db_client.add_users.assert_called_once_with(
             users_post_data, [
-                'connormaglynn', 
-                'PepperMoJ', 
-                'githubgary', 
+                'connormaglynn',
+                'PepperMoJ',
+                'githubgary',
                 'githubgeorge',
                 'KeithTheCoder',
                 'DaveTheCoder',
                 'sarahsaurus',
                 'PaulRudd',
                 'PaulRudd2'
-                ])
+            ])
 
 
 class TestDeleteAllUsers(unittest.TestCase):
