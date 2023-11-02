@@ -53,7 +53,8 @@ class TestCreateUser(unittest.TestCase):
                 'DaveTheCoder',
                 'sarahsaurus',
                 'PaulRudd',
-                'PaulRudd2'
+                'PaulRudd2',
+                'jasonBirchall'
             ])
 
 

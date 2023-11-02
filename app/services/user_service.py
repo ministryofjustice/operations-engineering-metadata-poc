@@ -15,7 +15,8 @@ class UserService:
                 'DaveTheCoder',
                 'sarahsaurus',
                 'PaulRudd',
-                'PaulRudd2'
+                'PaulRudd2',
+                'jasonBirchall'
             ]
         self.__allowed_users = allowed_users
 
