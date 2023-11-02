@@ -10,7 +10,7 @@ class UserService:
                 'connormaglynn',
                 'PepperMoJ',
                 'githubgary',
-                'githubgeorge,',
+                'githubgeorge',
                 'KeithTheCoder',
                 'DaveTheCoder',
                 'sarahsaurus',
