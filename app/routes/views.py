@@ -20,17 +20,17 @@ def create_app_routes(user_service: UserService):
 
         email_results = user_service.get_user_by_email(user_query)
 
-        if email_results is not None:
+        if email_results:
             return render_template('search-results.html', results=email_results, user_query=user_query)
 
         slack_results = user_service.get_user_by_slack_username(user_query)
 
-        if slack_results is not None:
+        if slack_results:
             return render_template('search-results.html', results=slack_results, user_query=user_query)
 
         github_results = user_service.get_user_by_github_username(user_query)
 
-        if github_results is not None:
+        if github_results:
             return render_template('search-results.html', results=github_results, user_query=user_query)
 
         return render_template('search-results.html', results=None, user_query=user_query)
