@@ -27,23 +27,103 @@
       </div>
       <button class="govuk-button" type="submit" style="margin-top: 10px;">Search</button>
   </form>
-  
+
+  <div id="dynamic-results"></div>
+
   <script>
-  function validateForm() {
-      var inputVal = document.getElementById("search").value;
+      function validateForm() {
+          var inputVal = document.getElementById("search").value;
   
-      if (inputVal.trim() === "") {
-          document.getElementById("search-error").style.display = "block";
-          document.getElementById("inputGroup").classList.add('govuk-form-group--error');
-          document.getElementById("search").classList.add('govuk-input--error');
-          return false;
-      } else {
-          document.getElementById("search-error").style.display = "none";
-          document.getElementById("inputGroup").classList.remove('govuk-form-group--error');
-          document.getElementById("search").classList.remove('govuk-input--error');
-          return true;
+          if (inputVal.trim() === "") {
+              document.getElementById("search-error").style.display = "block";
+              document.getElementById("inputGroup").classList.add('govuk-form-group--error');
+              document.getElementById("search").classList.add('govuk-input--error');
+              return false;
+          } else {
+              document.getElementById("search-error").style.display = "none";
+              document.getElementById("inputGroup").classList.remove('govuk-form-group--error');
+              document.getElementById("search").classList.remove('govuk-input--error');
+              return true;
+          }
       }
-  }
+
+      $(document).ready(function () {
+        $('#search').on('keyup', function () {
+            let query = $(this).val();
+
+            if (query.length < 3) {
+                $("#dynamic-results").html("");
+                return;
+            }
+
+            $.get("/user-search-live", { q: query }, function (data) {
+              $("#dynamic-results").html("");
+
+              if(data && data.length > 0) {
+                  let table = `
+                      <table class="govuk-table">
+                          <thead class="govuk-table__head">
+                              <tr class="govuk-table__row">
+                                  <th class="govuk-table__header" scope="col">Type</th>
+                                  <th class="govuk-table__header" scope="col">Value</th>
+                                  <th class="govuk-table__header" scope="col">Action</th>
+                              </tr>
+                          </thead>
+                          <tbody class="govuk-table__body">
+                  `;
+
+                  data.forEach(result => {
+                      if(result.email && result.email.includes(query)) {
+                          table += `
+                              <tr class="govuk-table__row">
+                                  <td class="govuk-table__cell">Email</td>
+                                  <td class="govuk-table__cell">${result.email}</td>
+                                  <td class="govuk-table__cell">
+                                      <button class="govuk-button" onclick="fillSearchBox('${result.email}');">Autofill</button>
+                                  </td>
+                              </tr>
+                          `;
+                      }
+                      if(result.github_username && result.github_username.includes(query)) {
+                          table += `
+                              <tr class="govuk-table__row">
+                                  <td class="govuk-table__cell">GitHub Username</td>
+                                  <td class="govuk-table__cell">${result.github_username}</td>
+                                  <td class="govuk-table__cell">
+                                      <button class="govuk-button" onclick="fillSearchBox('${result.github_username}');">Autofill</button>
+                                  </td>
+                              </tr>
+                          `;
+                      }
+                      if(result.slack_username && result.slack_username.includes(query)) {
+                          table += `
+                              <tr class="govuk-table__row">
+                                  <td class="govuk-table__cell">Slack Username</td>
+                                  <td class="govuk-table__cell">${result.slack_username}</td>
+                                  <td class="govuk-table__cell">
+                                      <button class="govuk-button" onclick="fillSearchBox('${result.slack_username}');">Autofill</button>
+                                  </td>
+                              </tr>
+                          `;
+                      }
+                  });
+
+                  table += `
+                          </tbody>
+                      </table>
+                  `;
+
+                  $("#dynamic-results").html(table);
+              }
+          });
+        });
+    });
+
+    function fillSearchBox(value) {
+      $("#search").val(value);
+    }
+
+
   </script>
   </div>
 </div>
