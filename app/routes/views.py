@@ -1,6 +1,6 @@
 import logging
 
-from flask import Blueprint, request, render_template
+from flask import Blueprint, jsonify, request, render_template
 
 from app.services.user_service import UserService
 
@@ -34,5 +34,23 @@ def create_app_routes(user_service: UserService):
             return render_template('search-results.html', results=github_results, user_query=user_query)
 
         return render_template('search-results.html', results=None, user_query=user_query)
+    
+    @app_routes.route('/user-search-live', methods=['GET'])
+    def user_search_live():
+        user_query = request.args.get('q')
+
+        email_results = user_service.get_user_by_email(user_query)
+        if email_results:
+            return jsonify(email_results)
+
+        slack_results = user_service.get_user_by_slack_username(user_query)
+        if slack_results:
+            return jsonify(slack_results)
+
+        github_results = user_service.get_user_by_github_username(user_query)
+        if github_results:
+            return jsonify(github_results)
+
+        return jsonify([])
 
     return app_routes
