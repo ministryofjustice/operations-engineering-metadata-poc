@@ -34,7 +34,7 @@ def create_app_routes(user_service: UserService):
             return render_template('search-results.html', results=github_results, user_query=user_query)
 
         return render_template('search-results.html', results=None, user_query=user_query)
-    
+
     @app_routes.route('/user-search-live', methods=['GET'])
     def user_search_live():
         user_query = request.args.get('q')
