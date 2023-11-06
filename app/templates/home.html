@@ -79,7 +79,7 @@
                                   <td class="govuk-table__cell">Email</td>
                                   <td class="govuk-table__cell">${result.email}</td>
                                   <td class="govuk-table__cell">
-                                      <button class="govuk-button" onclick="fillSearchBox('${result.email}');">Autofill</button>
+                                    <button class="govuk-button" onclick="submitSearch('${result.email}');">Search</button>
                                   </td>
                               </tr>
                           `;
@@ -90,7 +90,7 @@
                                   <td class="govuk-table__cell">GitHub Username</td>
                                   <td class="govuk-table__cell">${result.github_username}</td>
                                   <td class="govuk-table__cell">
-                                      <button class="govuk-button" onclick="fillSearchBox('${result.github_username}');">Autofill</button>
+                                    <button class="govuk-button" onclick="submitSearch('${result.github_username}');">Search</button>
                                   </td>
                               </tr>
                           `;
@@ -101,7 +101,7 @@
                                   <td class="govuk-table__cell">Slack Username</td>
                                   <td class="govuk-table__cell">${result.slack_username}</td>
                                   <td class="govuk-table__cell">
-                                      <button class="govuk-button" onclick="fillSearchBox('${result.slack_username}');">Autofill</button>
+                                    <button class="govuk-button" onclick="submitSearch('${result.slack_username}');">Search</button>
                                   </td>
                               </tr>
                           `;
@@ -119,9 +119,10 @@
         });
     });
 
-    function fillSearchBox(value) {
-      $("#search").val(value);
-    }
+  function submitSearch(value) {
+    $("#search").val(value);
+    $("#userSearchForm").submit();
+  }
 
 
   </script>
