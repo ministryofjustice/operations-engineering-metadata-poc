@@ -28,6 +28,9 @@ class UserService:
 
     def get_user_by_github_username(self, github_username: str):
         return self.__db_client.get_user_by_github_username(github_username)
+    
+    def get_user_by_name(self, name: str):
+        return self.__db_client.get_user_by_name(name)
 
     def add_users(self, users: list[dict]):
         self.__db_client.add_users(users, self.__allowed_users)

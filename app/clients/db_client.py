@@ -19,6 +19,12 @@ class UserModel(db.Model):
         db.String(100), unique=True, nullable=False)
     github_username: str = db.Column(
         db.String(100), unique=True, nullable=False)
+    name: str = db.Column(
+        db.String(100), unique=False, nullable=False)
+    docker: bool = db.Column(db.Boolean, nullable=False)
+    pagerduty: bool = db.Column(db.Boolean, nullable=False)
+    sentry: bool = db.Column(db.Boolean, nullable=False)
+    pingdom: bool = db.Column(db.Boolean, nullable=False)
 
 
 class DBClient:
@@ -38,15 +44,18 @@ class DBClient:
                 self.__session.add(
                     UserModel(email='test_user_1_email@digital.justice.gov.uk',
                               slack_username='test_user_1_slack_username',
-                              github_username='test_user_1_github_username'))
+                              github_username='test_user_1_github_username',
+                              name='Test Userone'))
                 self.__session.add(
                     UserModel(email='test_user_2_email@digital.justice.gov.uk',
                               slack_username='test_user_2_slack_username',
-                              github_username='test_user_2_github_username'))
+                              github_username='test_user_2_github_username',
+                              name='Test Usertwo'))
                 self.__session.add(
                     UserModel(email='test_user_3_email@digital.justice.gov.uk',
                               slack_username='test_user_3_slack_username',
-                              github_username='test_user_3_github_username'))
+                              github_username='test_user_3_github_username',
+                              name = 'Test Userthree'))
             self.__session.commit()
 
     def get_user_by_email(self, email: str) -> List[Type[UserModel]] | None:
@@ -57,21 +66,37 @@ class DBClient:
 
     def get_user_by_github_username(self, github_username: str) -> List[Type[UserModel]] | None:
         return self.__session.query(UserModel).filter(UserModel.github_username.ilike(f"%{github_username}%")).all()
+    
+    def get_user_by_name(self, name: str) -> List[Type[UserModel]] | None:
+        return self.__session.query(UserModel).filter(UserModel.name.ilike(f"%{name}%")).all()
 
     def add_users(self, users: list[dict], allowed_users: list[str]):
         for user in users:
             if user['github_username'] in allowed_users:
                 self.__add_user(
-                    user['email'], user['slack_username'], user["github_username"])
+                    user['email'], 
+                    user['slack_username'], 
+                    user['github_username'], 
+                    user['name'],
+                    user['docker'],
+                    user['pagerduty'],
+                    user['sentry'],
+                    user['pingdom'])
             else:
                 self.app.logger.warning(
                     f'skipping user [{user["github_username"]}] - not in allowed list')
         self.__session.commit()
 
-    def __add_user(self, email: str, slack_username: str, github_username: str) -> None:
+    def __add_user(self, email: str, slack_username: str, github_username: str, name: str, 
+                   docker: bool, pagerduty: bool, sentry: bool, pingdom: bool) -> None:
         self.__session.add(UserModel(email=email,
                                      slack_username=slack_username,
-                                     github_username=github_username))
+                                     github_username=github_username,
+                                     name=name,
+                                     docker=docker,
+                                     pagerduty=pagerduty,
+                                     sentry=sentry,
+                                     pingdom=pingdom))
 
     def delete_all_users(self) -> int:
         rows_deleted = self.__session.query(UserModel).delete()

@@ -17,6 +17,10 @@ def create_api_route(user_service: UserService):
     @api_route.route("/api/user/github-username/<github_username>", methods=["GET"])
     def get_user_by_github_username(github_username: str) -> Response:
         return jsonify(user_service.get_user_by_github_username(github_username))
+    
+    @api_route.route("/api/user/github-username/<name>", methods=["GET"])
+    def get_user_by_name(name: str) -> Response:
+        return jsonify(user_service.get_user_by_github_username(name))
 
     @api_route.route("/api/user/add", methods=["POST"])
     def add_users() -> Response:
