@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<div>
+    <div>
+        <h1 class="govuk-heading-xl">{{ result[0].name }}</h1>
+        <h3 class="govuk-heading-l">{{ result[0].email }}</h3>
+        
+    </div>
+</div>
+
+<dl class="govuk-summary-list">
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      GitHub Username
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ result[0].github_username }}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a href="https://github.com/{{ result[0].github_username }}" target="_blank" class="govuk-link">View Profile</a>
+    </dd>
+  </div>
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Slack Username
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ result[0].slack_username }}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a href="#" class="govuk-link" disabled>View Profile</a>
+    </dd>
+  </div>
+
+  {% if result[0].docker %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Docker Profile
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ result[0].docker }}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a href="#" class="govuk-link" disabled>View Profile</a>
+    </dd>
+  </div>
+  {% endif %}
+  
+  {% if result[0].pagerduty %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      PagerDuty Profile
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ result[0].pagerduty }}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a href="#" class="govuk-link" disabled>View Profile</a>
+    </dd>
+  </div>
+  {% endif %}
+  
+  {% if result[0].sentry %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Sentry Profile
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ result[0].sentry }}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a href="#" class="govuk-link" disabled>View Profile</a>
+    </dd>
+  </div>
+  {% endif %}
+  
+  {% if result[0].pingdom %}
+  <div class="govuk-summary-list__row">
+    <dt class="govuk-summary-list__key">
+      Pingdom Profile
+    </dt>
+    <dd class="govuk-summary-list__value">
+      {{ result[0].pingdom }}
+    </dd>
+    <dd class="govuk-summary-list__actions">
+      <a href="#" class="govuk-link" disabled>View Profile</a>
+    </dd>
+  </div>
+  {% endif %}
+</dl>
+
+<button class="govuk-button" onclick="location.href='/home'" style="margin-top: 10px;">Return to Search</button>
+
+{% endblock %}
