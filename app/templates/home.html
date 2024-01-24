@@ -17,9 +17,9 @@
     <h1 id=searchHeading class="govuk-heading-l">Search for a User</h1>
     <form id="userSearchForm" action="/user-search" method="post" onsubmit="return validateForm()" class="govuk-form-group">
       <div class="govuk-form-group" id="inputGroup">
-          <div id="search-hint" class="govuk-hint">
-              Enter a Slack Username, GitHub Username or Email Address.
-          </div>
+        <div class="govuk-inset-text">
+          You can search here for a user by name, email and GitHub or Slack usernames.
+        </div>
           <p id="search-error" class="govuk-error-message" style="display: none;">
               <span class="govuk-visually-hidden">Error:</span> Please provide input before searching.
           </p>
@@ -59,71 +59,32 @@
             $.get("/user-search-live", { q: query }, function (data) {
               $("#dynamic-results").html("");
 
-              if(data && data.length > 0) {
-                  let table = `
-                      <table class="govuk-table">
-                          <thead class="govuk-table__head">
-                              <tr class="govuk-table__row">
-                                  <th class="govuk-table__header" scope="col">Type</th>
-                                  <th class="govuk-table__header" scope="col">Value</th>
-                                  <th class="govuk-table__header" scope="col">Action</th>
-                              </tr>
-                          </thead>
-                          <tbody class="govuk-table__body">
-                  `;
+              if (data && data.length > 0) {
+                let listItems = "";
+                data.forEach(result => {
+                    if (result.email && result.email.includes(query)) {
+                        listItems += `
+                            <li class="govuk-body">
+                                <a href="/user-profile?email=${encodeURIComponent(result.email)}" class="govuk-link">${result.name}</a>
+                                <span> (${result.email})</span>
+                            </li>`;
+                    }
+                });
 
-                  data.forEach(result => {
-                      if(result.email && result.email.includes(query)) {
-                          table += `
-                              <tr class="govuk-table__row">
-                                  <td class="govuk-table__cell">Email</td>
-                                  <td class="govuk-table__cell">${result.email}</td>
-                                  <td class="govuk-table__cell">
-                                    <button class="govuk-button" onclick="submitSearch('${result.email}');">Search</button>
-                                  </td>
-                              </tr>
-                          `;
-                      }
-                      if(result.github_username && result.github_username.includes(query)) {
-                          table += `
-                              <tr class="govuk-table__row">
-                                  <td class="govuk-table__cell">GitHub Username</td>
-                                  <td class="govuk-table__cell">${result.github_username}</td>
-                                  <td class="govuk-table__cell">
-                                    <button class="govuk-button" onclick="submitSearch('${result.github_username}');">Search</button>
-                                  </td>
-                              </tr>
-                          `;
-                      }
-                      if(result.slack_username && result.slack_username.includes(query)) {
-                          table += `
-                              <tr class="govuk-table__row">
-                                  <td class="govuk-table__cell">Slack Username</td>
-                                  <td class="govuk-table__cell">${result.slack_username}</td>
-                                  <td class="govuk-table__cell">
-                                    <button class="govuk-button" onclick="submitSearch('${result.slack_username}');">Search</button>
-                                  </td>
-                              </tr>
-                          `;
-                      }
-                  });
+                let listWithHeading = listItems ? `<h2 class="govuk-heading-l">Matching Users</h2><ul class="govuk-list">${listItems}</ul>` : "";
 
-                  table += `
-                          </tbody>
-                      </table>
-                  `;
-
-                  $("#dynamic-results").html(table);
+                $("#dynamic-results").html(listWithHeading);
+              } else {
+                $("#dynamic-results").html("");
               }
-          });
+            });
         });
-    });
+      });
 
   function submitSearch(value) {
     $("#search").val(value);
     $("#userSearchForm").submit();
   }
-
 
   </script>
   </div>

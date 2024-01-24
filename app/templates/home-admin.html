@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.5.1/dist/chart.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<h1 class="govuk-heading-xl">Ministry of Justice User Search</h1>
+<h3 class="govuk-heading-l">Overview</h3>
+
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+        <span class="govuk-warning-text__assistive">Warning</span>
+        You are currently using the administrator view
+    </strong>
+</div>
+
+<p class="govuk-body">
+    This website enables users to cross reference email, Slack usernames and GitHub usernames to identify user information from one source to another.
+</p>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 id=searchHeading class="govuk-heading-l">Search for a User</h1>
+    <form id="userSearchForm" action="/user-search" method="post" onsubmit="return validateForm()" class="govuk-form-group">
+      <div class="govuk-form-group" id="inputGroup">
+        <div class="govuk-inset-text">
+          You can search here for a user by name, email and GitHub or Slack usernames.
+        </div>
+          <p id="search-error" class="govuk-error-message" style="display: none;">
+              <span class="govuk-visually-hidden">Error:</span> Please provide input before searching.
+          </p>
+          <input class="govuk-input" id="search" name="q" type="text" aria-describedby="search-hint search-error" placeholder="User Information" autocomplete="off">
+      </div>
+      <button class="govuk-button" type="submit" style="margin-top: 10px;">Search</button>
+  </form>
+
+  <div id="dynamic-results"></div>
+
+  <script>
+      function validateForm() {
+          var inputVal = document.getElementById("search").value;
+  
+          if (inputVal.trim() === "") {
+              document.getElementById("search-error").style.display = "block";
+              document.getElementById("inputGroup").classList.add('govuk-form-group--error');
+              document.getElementById("search").classList.add('govuk-input--error');
+              return false;
+          } else {
+              document.getElementById("search-error").style.display = "none";
+              document.getElementById("inputGroup").classList.remove('govuk-form-group--error');
+              document.getElementById("search").classList.remove('govuk-input--error');
+              return true;
+          }
+      }
+
+      $(document).ready(function () {
+        $('#search').on('keyup', function () {
+            let query = $(this).val();
+
+            if (query.length < 3) {
+                $("#dynamic-results").html("");
+                return;
+            }
+
+            $.get("/user-search-live", { q: query }, function (data) {
+              $("#dynamic-results").html("");
+
+              if (data && data.length > 0) {
+                let listItems = "";
+                data.forEach(result => {
+                    if (result.email && result.email.includes(query)) {
+                        listItems += `
+                            <li class="govuk-body">
+                                <a href="/user-profile-admin-view?email=${encodeURIComponent(result.email)}" class="govuk-link">${result.name}</a>
+                                <span> (${result.email})</span>
+                            </li>`;
+                    }
+                });
+
+                let listWithHeading = listItems ? `<h2 class="govuk-heading-l">Matching Users</h2><ul class="govuk-list">${listItems}</ul>` : "";
+
+                $("#dynamic-results").html(listWithHeading);
+              } else {
+                $("#dynamic-results").html("");
+              }
+            });
+        });
+      });
+
+  function submitSearch(value) {
+    $("#search").val(value);
+    $("#userSearchForm").submit();
+  }
+
+  </script>
+  </div>
+</div>
+
+{% endblock %}
