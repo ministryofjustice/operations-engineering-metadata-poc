@@ -14,10 +14,10 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-          cache: "pip"
+          python-version: "3.12"
+          cache: "pipenv"
       - name: Install Pipenv
         run: pip install pipenv
       - name: Verify Pipfile.lock is in sync
