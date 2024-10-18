@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+flask = "*"
+flask-sqlalchemy = "*"
+flask-cors = "*"
+govuk-frontend-jinja = "*"
+jinja2 = "~=3.1.2"
+psycopg2-binary = "*"
+alembic = "*"
+boto3 = "*"
+pytest = "*"
+coverage = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.12"

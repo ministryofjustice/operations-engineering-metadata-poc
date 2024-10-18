@@ -14,11 +14,15 @@ jobs:
         with:
           fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
-          cache: "pip"
-      - name: Install Dependencies
-        run: pip install -r requirements.txt
+          python-version: "3.12"
+          cache: "pipenv"
+      - name: Install Pipenv
+        run: pip install pipenv
+      - name: Verify Pipfile.lock is in sync
+        run: pipenv verify
+      - name: Install dependencies
+        run: pipenv install --dev
       - name: Run Unit Tests
-        run: python -m pytest -v
+        run: pipenv run pytest -v
