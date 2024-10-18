@@ -18,7 +18,11 @@ jobs:
         with:
           python-version: "3.11"
           cache: "pip"
-      - name: Install Dependencies
-        run: pip install -r requirements.txt
+      - name: Install Pipenv
+        run: pip install pipenv
+      - name: Verify Pipfile.lock is in sync
+        run: pipenv verify
+      - name: Install dependencies
+        run: pipenv install --dev
       - name: Run Unit Tests
-        run: python -m pytest -v
+        run: pipenv run tests
